@@ -1,0 +1,24 @@
+﻿<Window x:Class="Consumer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Consumer"
+        mc:Ignorable="d"
+        Title="Consumer" Height="389.024" Width="587.805">
+    <Grid>
+        <Button Content="Add"  Click="addNewConsumer" HorizontalAlignment="Left" Margin="19,193,0,0" VerticalAlignment="Top" Width="75" Height="28"/>
+        <DataGrid Name="panels" ItemsSource="{Binding Consumers}"  IsReadOnly="True"
+                  HorizontalAlignment="Left" Height="235" Margin="242,62,0,0" VerticalAlignment="Top" Width="283"  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name " Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Power (kw)" Binding="{Binding Power}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox Name="name" HorizontalAlignment="Left" Height="26" Margin="110,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
+        <TextBox Name="power" HorizontalAlignment="Left" Height="26" Margin="110,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
+        <Label Content="Name" HorizontalAlignment="Left" Height="26" Margin="19,62,0,0" VerticalAlignment="Top" Width="86"/>
+        <Label Content="Power" HorizontalAlignment="Left" Height="26" Margin="19,112,0,0" VerticalAlignment="Top" Width="86"/>
+
+    </Grid>
+</Window>
