@@ -1,0 +1,25 @@
+﻿<Window x:Class="SHES_Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:SHES_Wpf"
+        xmlns:local="clr-namespace:SHES_Wpf"
+        mc:Ignorable="d"
+        Title="SHES" Height="324.39" Width="670.732" ResizeMode="NoResize">
+   
+    <Grid>
+        <Label Content="Solar Panels produce (kW)" HorizontalAlignment="Left" Height="44" Margin="70,49,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Consumers power (kW)" HorizontalAlignment="Left" Height="44" Margin="70,93,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Utility price ($/kWh)" HorizontalAlignment="Left" Height="44" Margin="70,142,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Battery capacity left" HorizontalAlignment="Left" Height="44" Margin="70,191,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="{Binding Path=PowerProducedSolar}" HorizontalAlignment="Left" Height="28" Margin="256,49,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="{Binding Path=PowerConsumersUse}"  HorizontalAlignment="Left" Height="29" Margin="256,93,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="{Binding Path=Price}" HorizontalAlignment="Left" Height="27" Margin="256,142,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="{Binding BatteryCapacity}" HorizontalAlignment="Left" Height="27" Margin="256,191,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="Sum Power produced" HorizontalAlignment="Left" Height="44" Margin="387,49,0,0" VerticalAlignment="Top" Width="131"/>
+        <Label Content=" Sum Power consume" HorizontalAlignment="Left" Height="44" Margin="387,98,0,0" VerticalAlignment="Top" Width="131"/>
+        <Label Content="{Binding SumProduced}"  HorizontalAlignment="Left" Height="29" Margin="542,48,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="{Binding SumConsume}"  HorizontalAlignment="Left" Height="29" Margin="542,98,0,0" VerticalAlignment="Top" Width="98"/>
+    </Grid>
+</Window>
