@@ -19,6 +19,7 @@ namespace SHES_Wpf
         private string price = "0";
         private string powerProducedSolar = "0";
         private string powerConsumersUse = "0";
+        private string powerEVUse = "0";
         private string powerInBattery = "0";
         private string batteryCapacity = "0";
         private string sumProduce = "0";
@@ -67,6 +68,15 @@ namespace SHES_Wpf
             {
                 powerConsumersUse = value;
                 OnPropertyChanged("PowerConsumersUse");
+            }
+        }
+        public string PowerEVUse
+        {
+            get { return powerEVUse; }
+            set
+            {
+                powerEVUse = value;
+                OnPropertyChanged("PowerEVUse");
             }
         }
         public string PowerInBattery
@@ -276,19 +286,20 @@ namespace SHES_Wpf
                 if (Instance.BatteryIsCharging)
                 {
                     Instance.SumProduced = Instance.PowerProducedSolar;
-                    Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerInBattery)).ToString();
+                    Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerInBattery)+ double.Parse(
+                        Instance.PowerEVUse)).ToString();
                 }
                 else
                 {
                     if (double.Parse(Instance.BatteryCapacity) >= double.Parse(Instance.PowerInBattery) - 0.15)
                     {
                         Instance.SumProduced = Instance.PowerProducedSolar;
-                        Instance.SumConsume = Instance.PowerConsumersUse;
+                        Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerEVUse)).ToString();
                     }
                     else
                     {
                         Instance.SumProduced = (double.Parse(Instance.PowerProducedSolar) + double.Parse(Instance.PowerInBattery)).ToString();
-                        Instance.SumConsume = Instance.PowerConsumersUse;
+                        Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerEVUse)).ToString();
                     }
                 }
                 result = (double.Parse(Instance.SumConsume) - double.Parse(Instance.SumProduced));
@@ -317,6 +328,16 @@ namespace SHES_Wpf
             lock (lockConsumers)
             {
                 return Consumers;
+            }
+        }
+
+        public void SendEVPower(EVehicle vehicle)
+        {
+            double power = 0;
+            power = vehicle.Power;
+            lock (lockInstance)
+            {
+                Instance.PowerEVUse = power.ToString();
             }
         }
     }

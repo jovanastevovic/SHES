@@ -14,7 +14,7 @@ namespace EV_Charger
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Thread drive_Charge_Thread, changeBatteryCapacity;
+        public Thread drive_Charge_Thread, sendingPowerToSHESThread;
         public static EVehicle vehicle;
         public static object lockObject = new object();
         public static ISHESContract proxy = new ChannelFactory<ISHESContract>(new NetTcpBinding(),
@@ -25,7 +25,11 @@ namespace EV_Charger
         {
             InitializeComponent();
             drive_Charge_Thread = new Thread(Drive_Charge_Thread);
+            sendingPowerToSHESThread = new Thread(SendingPowerToSHES);
+
             drive_Charge_Thread.Start();
+            sendingPowerToSHESThread.Start();
+
         }
 
         private void Drive_Charge_Thread()
@@ -67,6 +71,39 @@ namespace EV_Charger
                         driveCb.IsEnabled = true;
                     }
                 }));
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void SendingPowerToSHES()
+        {
+            while (true)
+            {
+                try
+                {
+                    lock (lockObject)
+                    {
+                        this.Dispatcher.Invoke((Action)(() =>
+                        {
+                            if ((bool) chargeCB.IsChecked)
+                            {
+                                proxy.SendEVPower(vehicle);
+                            }
+                            else
+                            {
+                                proxy.SendEVPower(new EVehicle() { Power = 0});
+                            }
+                        }));
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("SHES is not avaiable");
+                    proxy = new ChannelFactory<ISHESContract>(new NetTcpBinding(),
+                            new EndpointAddress("net.tcp://localhost:5000/SHES")).CreateChannel();
+
+                    Thread.Sleep(1000);
+                }
                 Thread.Sleep(1000);
             }
         }

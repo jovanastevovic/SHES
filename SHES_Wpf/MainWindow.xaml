@@ -12,7 +12,8 @@
         <Label Content="Solar Panels produce (kW)" HorizontalAlignment="Left" Height="44" Margin="70,49,0,0" VerticalAlignment="Top" Width="150"/>
         <Label Content="Consumers power (kW)" HorizontalAlignment="Left" Height="44" Margin="70,93,0,0" VerticalAlignment="Top" Width="150"/>
         <Label Content="Utility price ($/kWh)" HorizontalAlignment="Left" Height="44" Margin="70,142,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label Content="Battery capacity left" HorizontalAlignment="Left" Height="44" Margin="70,191,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Battery capacity left" HorizontalAlignment="Left" Height="39" Margin="70,191,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="EV cappacity" HorizontalAlignment="Left" Height="39" Margin="70,235,0,0" VerticalAlignment="Top" Width="150"/>
         <Label Content="{Binding Path=PowerProducedSolar}" HorizontalAlignment="Left" Height="28" Margin="256,49,0,0" VerticalAlignment="Top" Width="98"/>
         <Label Content="{Binding Path=PowerConsumersUse}"  HorizontalAlignment="Left" Height="29" Margin="256,93,0,0" VerticalAlignment="Top" Width="98"/>
         <Label Content="{Binding Path=Price}" HorizontalAlignment="Left" Height="27" Margin="256,142,0,0" VerticalAlignment="Top" Width="98"/>
@@ -21,5 +22,6 @@
         <Label Content=" Sum Power consume" HorizontalAlignment="Left" Height="44" Margin="387,98,0,0" VerticalAlignment="Top" Width="131"/>
         <Label Content="{Binding SumProduced}"  HorizontalAlignment="Left" Height="29" Margin="542,48,0,0" VerticalAlignment="Top" Width="98"/>
         <Label Content="{Binding SumConsume}"  HorizontalAlignment="Left" Height="29" Margin="542,98,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="{Binding PowerEVUse}" HorizontalAlignment="Left" Height="27" Margin="256,235,0,0" VerticalAlignment="Top" Width="98"/>
     </Grid>
 </Window>

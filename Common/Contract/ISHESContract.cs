@@ -17,6 +17,8 @@ namespace Common.Contract
         [OperationContract]
         void SendConsumerPower(ObservableCollection<Consumer> consumers);
         [OperationContract]
+        void SendEVPower(EVehicle vehicle);
+        [OperationContract]
         void AddNewSolarPanelInSystem(SolarPanel sp);
         [OperationContract]
         void AddNewBatteryInSystem(Battery b);
