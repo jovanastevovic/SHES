@@ -8,7 +8,7 @@
         Title="SolarPanels" Height="423.034" Width="547.971" ResizeMode="NoResize">
     <Grid>
         <Button Content="Add"  Click="addNewSolarPanel" HorizontalAlignment="Left" Margin="19,165,0,0" VerticalAlignment="Top" Width="75" Height="28"/>
-        <DataGrid Name="panels" ItemsSource="{Binding SolarPanels}" SelectionChanged="dataGridSelectionChange"  IsReadOnly="True"
+        <DataGrid Name="panels" ItemsSource="{Binding SolarPanels}"   IsReadOnly="True"
                   HorizontalAlignment="Left" Height="235" Margin="242,62,0,0" VerticalAlignment="Top" Width="283"  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name " Binding="{Binding Name}"/>

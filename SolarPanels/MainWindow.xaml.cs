@@ -56,11 +56,8 @@ namespace SolarPanels
 
             sendPowerToSHESThread = new Thread(SendingPowerToSHES);
             sendPowerToSHESThread.Start();
-        }
 
-        private void dataGridSelectionChange(object sender, SelectionChangedEventArgs e)
-        {
-
+            SolarPanels = proxy.GetSolarPanels();
         }
 
         private void addNewSolarPanel(object sender, RoutedEventArgs e)

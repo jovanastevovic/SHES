@@ -30,5 +30,9 @@ namespace Common.Contract
         double PowerToSell();
         [OperationContract]
         ObservableCollection<Battery> GetBateriesCapacities();
+        [OperationContract]
+        ObservableCollection<SolarPanel> GetSolarPanels();
+        [OperationContract]
+        ObservableCollection<Consumer> GetConsumers();
     }
 }
