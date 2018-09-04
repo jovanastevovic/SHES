@@ -1,23 +1,12 @@
 ﻿using Common.Contract;
 using Common.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
+using System.ServiceModel.Description;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Batery
 {
@@ -27,7 +16,7 @@ namespace Batery
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public Thread sendPowerToSHESThread, changeBatteryCapacity;
-        private ObservableCollection<Battery> baterries = new ObservableCollection<Battery>();
+        private static ObservableCollection<Battery> baterries = new ObservableCollection<Battery>();
         public static object lockObject = new object();
         public static ISHESContract proxy = new ChannelFactory<ISHESContract>(new NetTcpBinding(),
        new EndpointAddress("net.tcp://localhost:5000/SHES")).CreateChannel();
@@ -55,6 +44,7 @@ namespace Batery
         {
             InitializeComponent();
             this.DataContext = this;
+
             sendPowerToSHESThread = new Thread(SendingPowerToSHES);
             sendPowerToSHESThread.Start();
 
@@ -101,7 +91,7 @@ namespace Batery
                     {
                         if (Batteries.Count > 0)
                         {
-                            proxy.SendBatteryPower(baterries);
+                            proxy.SendBatteryPower(Batteries);
                         }
                     }
                 }
@@ -110,7 +100,6 @@ namespace Batery
                     Console.WriteLine("SHES is not avaiable");
                     proxy = new ChannelFactory<ISHESContract>(new NetTcpBinding(),
                             new EndpointAddress("net.tcp://localhost:5000/SHES")).CreateChannel();
-
                     Thread.Sleep(1000);
                 }
                 Thread.Sleep(1000);
@@ -122,11 +111,14 @@ namespace Batery
             {
                 try
                 {
-                    lock (lockObject)
+                    ObservableCollection<Battery> res = proxy.GetBateriesCapacities();
+                    if (res != null)
                     {
-                        ObservableCollection<Battery> res = proxy.GetBateriesCapacities();
-                        if (res != null)
+                        lock (lockObject)
+                        {
                             Batteries = res;
+                 
+                        }
                     }
                 }
                 catch (Exception)

@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Batery"
         mc:Ignorable="d"
-        Title="Battery" Height="378.049" Width="575.61">
+        Title="Battery" Height="376" Width="558.193">
     <Grid>
         <Button Content="Add"  Click="addNewBattery" HorizontalAlignment="Left" Margin="19,193,0,0" VerticalAlignment="Top" Width="75" Height="28"/>
         <DataGrid Name="panels" ItemsSource="{Binding Batteries}"  IsReadOnly="True"
-                  HorizontalAlignment="Left" Height="235" Margin="242,62,0,0" VerticalAlignment="Top" Width="283"  AutoGenerateColumns="False">
+                  HorizontalAlignment="Left" Height="235" Margin="220,62,0,0" VerticalAlignment="Top" Width="317"  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name " Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Power (kw)" Binding="{Binding Power}"/>
                 <DataGridTextColumn Header="Capacity (h)" Binding="{Binding Capacity}"/>
+                <DataGridTextColumn Header="Remaining Capacity (h)" Binding="{Binding RemainingCapacity}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBox Name="name" HorizontalAlignment="Left" Height="26" Margin="110,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>

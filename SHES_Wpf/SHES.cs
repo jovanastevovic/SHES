@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SHES_Wpf
 {
-    public class SHES : ISHESContract,INotifyPropertyChanged
+    public class SHES : ISHESContract, INotifyPropertyChanged
     {
         #region Fields
         private string price = "0";
@@ -32,14 +32,15 @@ namespace SHES_Wpf
         public static object lockConsumers = new object();
         public static Thread calculatinThread;
         private static bool bateryIsCharging = false;
+        private static bool bateryIsDisCharging = false;
 
         #endregion
         #region Properties
-        public static IBatteryContract proxy = new ChannelFactory<IBatteryContract>(new NetTcpBinding(),
-       new EndpointAddress("net.tcp://localhost:6000/Batteries")).CreateChannel();
+
         public ObservableCollection<Battery> Batteries = new ObservableCollection<Battery>();
         public ObservableCollection<Consumer> Consumers = new ObservableCollection<Consumer>();
         public ObservableCollection<SolarPanel> SolarPanels = new ObservableCollection<SolarPanel>();
+        public ObservableCollection<PriceAndPower> PriceAndPowers = new ObservableCollection<PriceAndPower>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -124,6 +125,15 @@ namespace SHES_Wpf
                 OnPropertyChanged("BatteryIsCharging");
             }
         }
+        public bool BatteryIsDisCharging
+        {
+            get { return bateryIsDisCharging; }
+            set
+            {
+                bateryIsDisCharging = value;
+                OnPropertyChanged("BatteryIsDisCharging");
+            }
+        }
         protected virtual void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
@@ -146,7 +156,6 @@ namespace SHES_Wpf
             {
                 Console.WriteLine(ex.Message);
             }
-          
         }
         public static SHES Instance
         {
@@ -176,7 +185,15 @@ namespace SHES_Wpf
                         try
                         {
                             if (double.Parse(Instance.BatteryCapacity) > 0.15)
-                                proxy.DischargeBatteries();
+                            {
+                                Instance.BatteryIsDisCharging = true;
+                                Instance.BatteryIsCharging = false;
+                            }
+                            else
+                            {
+                                Instance.BatteryIsDisCharging = false;
+                                Instance.BatteryIsCharging = false;
+                            }
                         }
                         catch (Exception)
                         {
@@ -188,12 +205,25 @@ namespace SHES_Wpf
                         try
                         {
                             if (double.Parse(Instance.BatteryCapacity) < double.Parse(Instance.PowerInBattery) - 0.15)
-                                proxy.ChargeBatteries();
+                            {
+                                Instance.BatteryIsCharging = true;
+                                Instance.BatteryIsDisCharging = false;
+                            }
+                            else
+                            {
+                                Instance.BatteryIsDisCharging = false;
+                                Instance.BatteryIsCharging = false;
+                            }
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("Bad connection");
                         }
+                    }
+                    else
+                    {
+                        Instance.BatteryIsDisCharging = false;
+                        Instance.BatteryIsCharging = false;
                     }
                 }
                 Thread.Sleep(1300);
@@ -281,12 +311,13 @@ namespace SHES_Wpf
         public double PowerToSell()
         {
             double result = 0;
+            PriceAndPower pnp;
             lock (lockInstance)
             {
                 if (Instance.BatteryIsCharging)
                 {
                     Instance.SumProduced = Instance.PowerProducedSolar;
-                    Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerInBattery)+ double.Parse(
+                    Instance.SumConsume = (double.Parse(Instance.PowerConsumersUse) + double.Parse(Instance.PowerInBattery) + double.Parse(
                         Instance.PowerEVUse)).ToString();
                 }
                 else
@@ -303,6 +334,9 @@ namespace SHES_Wpf
                     }
                 }
                 result = (double.Parse(Instance.SumConsume) - double.Parse(Instance.SumProduced));
+                pnp = new PriceAndPower(double.Parse(Instance.Price), result, DateTime.Now);
+                PriceAndPowers.Add(pnp);
+                serializer.SerializeObject<ObservableCollection<PriceAndPower>>(PriceAndPowers, "PriceAndPower.xml");
             }
             //Thread.Sleep(300);
             return result;
@@ -311,6 +345,27 @@ namespace SHES_Wpf
         {
             lock (lockbateries)
             {
+                lock (lockInstance)
+                {
+                    Battery b = Batteries[0];
+                    if (b.IsCharging == true && b.Power >= b.RemainingCapacity - 0.05)
+                    {
+                        foreach (Battery item in Batteries)
+                        {
+                            item.RemainingCapacity += 0.05;
+                        }
+                    }
+                    else if (b.IsDisCharging && b.RemainingCapacity >= 0.05)
+                    {
+                        foreach (Battery item in Batteries)
+                        {
+                            item.RemainingCapacity -= 0.05;
+                        }
+                    }
+                    var bat = Batteries[0];
+                    bat.IsCharging = Instance.BatteryIsCharging;
+                    bat.IsDisCharging = Instance.BatteryIsDisCharging;
+                }
                 return Batteries;
             }
         }
