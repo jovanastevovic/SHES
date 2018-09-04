@@ -48,6 +48,7 @@ namespace Consumer
             this.DataContext = this;
             sendPowerToShes = new Thread(SendingPowerToSHES);
             sendPowerToShes.Start();
+            Consumers =  proxy.GetConsumers();
         }
         protected virtual void OnPropertyChanged(string name)
         {

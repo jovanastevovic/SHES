@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EV_Charger"
         mc:Ignorable="d"
-        Title="EV_Charger" Height="242.373" Width="417.998">
+        Title="EV_Charger" Height="245.202" Width="566.062">
     <Grid>
-
+        <TextBox Name="name" HorizontalAlignment="Left" Height="26" Margin="105,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
+        <TextBox Name="power" HorizontalAlignment="Left" Height="26" Margin="105,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
+        <Label Content="Name" HorizontalAlignment="Left" Height="26" Margin="19,44,0,0" VerticalAlignment="Top" Width="86"/>
+        <Label Content="Power" HorizontalAlignment="Left" Height="26" Margin="19,94,0,0" VerticalAlignment="Top" Width="86"/>
+        <Label Name="evname" Content="" HorizontalAlignment="Left" Height="26" Margin="320,44,0,0" VerticalAlignment="Top" Width="76"/>
+        <Label  Content="Name" HorizontalAlignment="Left" Height="26" Margin="221,44,0,0" VerticalAlignment="Top" Width="76"/>
+        <Label Name="evpower" Content="" HorizontalAlignment="Left" Height="26" Margin="320,94,0,0" VerticalAlignment="Top" Width="76"/>
+        <Label  Content="Power" HorizontalAlignment="Left" Height="26" Margin="221,94,0,0" VerticalAlignment="Top" Width="76"/>
+        <Label Name="evRemaining" Content="" HorizontalAlignment="Left" Height="26" Margin="332,135,0,0" VerticalAlignment="Top" Width="64"/>
+        <Label Content="Remaining Power" HorizontalAlignment="Left" Height="26" Margin="221,135,0,0" VerticalAlignment="Top" Width="106"/>
+        <Button Name="addEV" Content="Add" Click="AddVehicle" HorizontalAlignment="Left" Height="29" Margin="19,150,0,0" VerticalAlignment="Top" Width="61"/>
+        <CheckBox Name="chargeCB"  Content="Charge" HorizontalAlignment="Left" Height="33" Margin="428,87,0,0" VerticalAlignment="Top" Width="95"/>
+        <CheckBox Name="driveCb" Content="Drive" HorizontalAlignment="Left" Height="33" Margin="428,135,0,0" VerticalAlignment="Top" Width="95"/>
     </Grid>
 </Window>
