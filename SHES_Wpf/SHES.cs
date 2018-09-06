@@ -201,11 +201,8 @@ namespace SHES_Wpf
             {
                 lock (lockInstance)
                 {
-                    //veca potrosnja nego proizvodnja ///Dodati ono konrolu punjenja i praznjennja kao u zadatku
                     if (double.Parse(Instance.PowerConsumersUse) > double.Parse(Instance.PowerProducedSolar))
                     {
-                        try
-                        {
                             if (double.Parse(Instance.BatteryCapacity) > 0.15)
                             {
                                 Instance.BatteryIsDisCharging = true;
@@ -216,16 +213,10 @@ namespace SHES_Wpf
                                 Instance.BatteryIsDisCharging = false;
                                 Instance.BatteryIsCharging = false;
                             }
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Bad connection");
-                        }
                     }
                     else if (double.Parse(Instance.PowerConsumersUse) < double.Parse(Instance.PowerProducedSolar))
                     {
-                        try
-                        {
+                       
                             if (double.Parse(Instance.BatteryCapacity) < double.Parse(Instance.PowerInBattery) - 0.15)
                             {
                                 Instance.BatteryIsCharging = true;
@@ -236,11 +227,6 @@ namespace SHES_Wpf
                                 Instance.BatteryIsDisCharging = false;
                                 Instance.BatteryIsCharging = false;
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Bad connection");
-                        }
                     }
                     else
                     {
