@@ -182,7 +182,7 @@ namespace SHES_WPFTests
             SHES.Instance.BatteryCapacity = "2";
             SHES.Instance.PowerInBattery = "2";
             SHES.Instance.BatteryIsCharging = false;
-            double res  = SHES.Instance.PowerToSell();
+            double res = SHES.Instance.PowerToSell();
             Assert.AreEqual(res, 3.0);
         }
         [Test]
@@ -204,7 +204,7 @@ namespace SHES_WPFTests
             SolarPanel solar = new SolarPanel("Sp23", 5);
             solar.CurentPower = 5;
             sp.Add(solar);
-            SHES.Instance.SendSolarPanelPower(sp); 
+            SHES.Instance.SendSolarPanelPower(sp);
             Assert.AreEqual(SHES.Instance.PowerProducedSolar, "5");
         }
         [Test]
@@ -227,7 +227,7 @@ namespace SHES_WPFTests
         public void SendSendBatteryPowerTest()
         {
             ObservableCollection<Battery> batteries = new ObservableCollection<Battery>();
-            Battery bat = new Battery("b23", 5,5);
+            Battery bat = new Battery("b23", 5, 5);
             batteries.Add(bat);
             SHES.Instance.SendBatteryPower(batteries);
             Assert.AreEqual(SHES.Instance.PowerInBattery, "5");
@@ -255,6 +255,34 @@ namespace SHES_WPFTests
             SHES.Instance.SolarPanels = solarpanels;
             var res = SHES.Instance.GetSolarPanels();
             Assert.AreEqual(res, SHES.Instance.SolarPanels);
+        }
+        [Test]
+        public void GetBatteriesCapacityChargingTest()
+        {
+            ObservableCollection<Battery> batteries = new ObservableCollection<Battery>();
+
+            Battery b1 = new Battery("B1", 4, 3);
+            Battery b2 = new Battery("B2", 5, 5);
+            b1.IsCharging = true;
+            batteries.Add(b1);
+            batteries.Add(b2);
+            SHES.Instance.Batteries = batteries;
+            ObservableCollection<Battery> res = SHES.Instance.GetBateriesCapacities();
+            Assert.AreEqual(res[0].RemainingCapacity,3.05);
+        }
+        [Test]
+        public void GetBatteriesCapacityDisChargingTest()
+        {
+            ObservableCollection<Battery> batteries = new ObservableCollection<Battery>();
+
+            Battery b1 = new Battery("B1", 4, 4);
+            Battery b2 = new Battery("B2", 5, 5);
+            b1.IsDisCharging = true;
+            batteries.Add(b1);
+            batteries.Add(b2);
+            SHES.Instance.Batteries = batteries;
+            ObservableCollection<Battery> res = SHES.Instance.GetBateriesCapacities();
+            Assert.AreEqual(res[0].RemainingCapacity, 3.95);
         }
     }
 }

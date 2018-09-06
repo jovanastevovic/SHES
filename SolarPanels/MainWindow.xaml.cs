@@ -59,8 +59,9 @@ namespace SolarPanels
 
             SolarPanels = proxy.GetSolarPanels();
         }
+      
 
-        private void addNewSolarPanel(object sender, RoutedEventArgs e)
+        public void addNewSolarPanel(object sender, RoutedEventArgs e)
         {
             SolarPanel sp = new SolarPanel();
             foreach (SolarPanel item in SolarPanels)
@@ -87,7 +88,7 @@ namespace SolarPanels
             }
 
         }
-        private void SunPowerChange()
+        public void SunPowerChange()
         {
             double newValue;
             double curentValue = 0;
@@ -117,7 +118,7 @@ namespace SolarPanels
                 Thread.Sleep(1000);
             }
         }
-        private void SetSunPower(object sender, RoutedEventArgs e)
+        public void SetSunPower(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -132,7 +133,7 @@ namespace SolarPanels
                 return;
             }
         }
-        private void SendingPowerToSHES()
+        public void SendingPowerToSHES()
         {
             while (true)
             {
@@ -151,7 +152,6 @@ namespace SolarPanels
                     Console.WriteLine("SHES is not avaiable");
                     proxy = new ChannelFactory<ISHESContract>(new NetTcpBinding(),
                             new EndpointAddress("net.tcp://localhost:5000/SHES")).CreateChannel();
-
                     Thread.Sleep(1000);
                 }
                 Thread.Sleep(1000);
