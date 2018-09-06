@@ -13,21 +13,21 @@ namespace Common.Contract
     public interface ISHESContract
     {
         [OperationContract]
-        void SendSolarPanelPower(ObservableCollection<SolarPanel> solars);
+        bool SendSolarPanelPower(ObservableCollection<SolarPanel> solars);
         [OperationContract]
-        void SendConsumerPower(ObservableCollection<Consumer> consumers);
+        bool SendConsumerPower(ObservableCollection<Consumer> consumers);
         [OperationContract]
-        void SendEVPower(EVehicle vehicle);
+        bool SendEVPower(EVehicle vehicle);
         [OperationContract]
-        void AddNewSolarPanelInSystem(SolarPanel sp);
+        bool AddNewSolarPanelInSystem(SolarPanel sp);
         [OperationContract]
-        void AddNewBatteryInSystem(Battery b);
+        bool AddNewBatteryInSystem(Battery b);
         [OperationContract]
-        void AddNewConsumerInSystem(Consumer e);
+        bool AddNewConsumerInSystem(Consumer e);
         [OperationContract]
-        void SendUtilityPrice(double price);
+        bool SendUtilityPrice(double price);
         [OperationContract]
-        void SendBatteryPower(ObservableCollection<Battery> batteries);
+        bool SendBatteryPower(ObservableCollection<Battery> batteries);
         [OperationContract]
         double PowerToSell();
         [OperationContract]

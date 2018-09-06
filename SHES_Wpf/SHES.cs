@@ -42,6 +42,28 @@ namespace SHES_Wpf
         public ObservableCollection<SolarPanel> SolarPanels = new ObservableCollection<SolarPanel>();
         public ObservableCollection<PriceAndPower> PriceAndPowers = new ObservableCollection<PriceAndPower>();
 
+        public static ISHESContract instanceProxy;
+
+        public static ISHESContract InstanceProxy
+        {
+            get
+            {
+                if (instanceProxy == null)
+                {
+                    instanceProxy = new SHES();
+                }
+
+                return instanceProxy;
+            }
+            set
+            {
+                if (instanceProxy == null)
+                {
+                    instanceProxy = value;
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Price
@@ -173,7 +195,7 @@ namespace SHES_Wpf
                 }
             }
         }
-        private static void CalculationThread()
+        public static  void CalculationThread()
         {
             while (true)
             {
@@ -230,34 +252,37 @@ namespace SHES_Wpf
             }
         }
 
-        public void AddNewBatteryInSystem(Battery b)
+        public bool AddNewBatteryInSystem(Battery b)
         {
             lock (lockbateries)
             {
                 Batteries.Add(b);
                 serializer.SerializeObject<ObservableCollection<Battery>>(Batteries, "Batteries.xml");
             }
+            return true;
         }
 
-        public void AddNewConsumerInSystem(Consumer c)
+        public bool AddNewConsumerInSystem(Consumer c)
         {
             lock (lockConsumers)
             {
                 Consumers.Add(c);
                 serializer.SerializeObject<ObservableCollection<Consumer>>(Consumers, "Consumers.xml");
             }
+            return true;
         }
 
-        public void AddNewSolarPanelInSystem(SolarPanel sp)
+        public bool AddNewSolarPanelInSystem(SolarPanel sp)
         {
             lock (lockSolars)
             {
                 SolarPanels.Add(sp);
                 serializer.SerializeObject<ObservableCollection<SolarPanel>>(SolarPanels, "SolarPanels.xml");
             }
+            return true;
         }
 
-        public void SendConsumerPower(ObservableCollection<Consumer> consumers)
+        public bool SendConsumerPower(ObservableCollection<Consumer> consumers)
         {
             double power = 0;
             foreach (Consumer item in consumers)
@@ -268,9 +293,10 @@ namespace SHES_Wpf
             {
                 Instance.PowerConsumersUse = power.ToString();
             }
+            return true;
         }
 
-        public void SendSolarPanelPower(ObservableCollection<SolarPanel> solars)
+        public bool SendSolarPanelPower(ObservableCollection<SolarPanel> solars)
         {
             double power = 0;
             foreach (SolarPanel item in solars)
@@ -281,17 +307,19 @@ namespace SHES_Wpf
             {
                 Instance.PowerProducedSolar = power.ToString();
             }
+            return true;
         }
 
-        public void SendUtilityPrice(double price)
+        public bool SendUtilityPrice(double price)
         {
             lock (lockInstance)
             {
                 Instance.Price = price.ToString();
             }
+            return true;
         }
 
-        public void SendBatteryPower(ObservableCollection<Battery> batteries)
+        public bool SendBatteryPower(ObservableCollection<Battery> batteries)
         {
             double powerInBattery = 0;
             double remainingCapacity = 0;
@@ -306,6 +334,7 @@ namespace SHES_Wpf
                 Instance.PowerInBattery = powerInBattery.ToString();
                 Instance.BatteryIsCharging = batteries.FirstOrDefault().IsCharging;
             }
+            return true;
         }
 
         public double PowerToSell()
@@ -386,7 +415,7 @@ namespace SHES_Wpf
             }
         }
 
-        public void SendEVPower(EVehicle vehicle)
+        public bool SendEVPower(EVehicle vehicle)
         {
             double power = 0;
             power = vehicle.Power;
@@ -394,6 +423,7 @@ namespace SHES_Wpf
             {
                 Instance.PowerEVUse = power.ToString();
             }
+            return true;
         }
     }
 }

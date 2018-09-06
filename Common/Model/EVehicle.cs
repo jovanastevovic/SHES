@@ -11,8 +11,6 @@ namespace Common.Model
     {
         private double remainingCapacity;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public double RemainingCapacity
         {
             get
@@ -41,6 +39,8 @@ namespace Common.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
-    public class Consumer :Element, INotifyPropertyChanged
+    public class Consumer :Element
     {
         private bool isActive;
 
@@ -22,16 +22,6 @@ namespace Common.Model
         {
             isActive = true;
         }
-
-        protected void OnPropertyChanged(string name)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
 
 
     }
