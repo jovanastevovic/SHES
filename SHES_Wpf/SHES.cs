@@ -362,7 +362,16 @@ namespace SHES_Wpf
             {
                 lock (lockInstance)
                 {
-                    Battery b = Batteries[0];
+                    Battery b = new Battery();
+                    try
+                    {
+                        b = Batteries[0];
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Empty list");
+                        return new ObservableCollection<Battery>();
+                    }
                     if (b.IsCharging == true && b.Power >= b.RemainingCapacity - 0.05)
                     {
                         foreach (Battery item in Batteries)
